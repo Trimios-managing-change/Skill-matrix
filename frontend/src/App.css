@@ -1,0 +1,4 @@
+.landingnav{
+    display: flex;
+    flex-direction: row;
+}

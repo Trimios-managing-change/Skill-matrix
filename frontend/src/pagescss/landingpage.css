@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  background-color: #F8F8F8; /* Corrected the background color */
+ 
+}
+
+.landing-page{
+  background: url('/public/assets/bgblob.png');
+  height: 100vh;
+  background-size: cover;
+}
+
+.landingnav {
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between; /* Logo on the left, menu on the right */
+  align-items: center;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Ensure nav-container is a flex container */
+.nav-container {
+  display: flex;
+  align-items: center; /* Ensures everything is vertically aligned */
+}
+
+.nav-container ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+
+.nav-container ul li a {
+  text-decoration: none;
+  
+}
+#login-register {
+  display: flex;
+  align-items: center; /* Aligns text vertically */
+  gap: 5px; /* Adjusts spacing between "Login" and "Register" */
+}
+
+#login-register h4 {
+  margin: 0; /* Removes default margins */
+  padding: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+#login-register h4:hover {
+  color: #0056b3;
+}
+
+/* Ensure all li elements are aligned properly */
+.nav-container ul li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 20px;
+}
+
+/* Styling for login/register links */
+.login, .register {
+  font-size: 20px; /* Match font size */
+  font-weight: 600;
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  padding: 10px 0; /* Ensures proper alignment */
+}
+
+.login:hover, .register:hover {
+  color: #0056b3;
+}
+
+
+.context{
+  background-color: #ffffff00;
+ margin-top: 60px;
+ margin-bottom: 40px;
+ margin-left: 20px;
+width: 60%;
+
+}
+h1{
+  background-color: #ffffff00;
+  font-size: 40px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+.highlight{
+  color: #08B914;
+}
+.highlight2{
+  background-color: #ffffff00;
+  color:#FFB703;
+}
+h2{
+  background-color: #ffffff00;
+  font-size: 30px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+h4{
+  background-color: #ffffff00;
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.landingpagebtns{
+  background-color: #ffffff00;
+  margin: 20px;
+  margin-top: 50px;
+}
+.context-btns{
+  background-color: #ffffff00;
+  display: flex;
+  gap: 20px;
+}
+button{
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #057c05;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+button:hover{
+  background-color: #03970d;
+}
+button:active{
+  background-color: #026e02;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+hr{
+  margin: 10px ;
+  margin-right: 40%;
+  border: 1px solid #ccc;
+}
+
+p{
+  background-color: #ffffff00;
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+  margin-right: 40%;
+}
+p #text{
+  background-color: #ffffff00;
+  font-size: 50px;
+}

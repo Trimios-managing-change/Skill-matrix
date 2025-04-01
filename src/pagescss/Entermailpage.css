@@ -1,0 +1,115 @@
+*{
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.forgotpassword-container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: url('../assets/login-bg.svg') no-repeat center center fixed; /* Center the background image */
+    background-size: cover; /* Cover the entire container */
+   
+}
+.forgotpassword-navbar{
+    margin: 20px 10px 20px 10px; /* Top: 20px, Right: 10px, Bottom: 20px, Left: 10px */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+img{
+    width: 200px;
+    height: 75px;
+    margin: 0 ; /* Center the logo horizontally */
+    padding: 0; /* Reset padding for logo */
+    pointer-events: none; /* Disable pointer events to prevent copying or moving */
+}
+#forgotpassword-ul {
+    display: flex; /* Ensure the list items are displayed in a row */
+    list-style: none; /* Remove default list styling */
+    margin: 0; /* Reset margin for ul */
+    padding: 0; /* Reset padding for ul */
+    align-items: center; /* Align list items to the center */
+}
+ #forgotpassword-ul li {
+    margin-right: 20px; /* Add spacing between list items */
+    cursor: pointer; /* Add pointer cursor */
+    font-weight: bold; /* Make list items bold */
+    font-size: 30px; /* Set font size to 20px */
+    line-height: 75px; /* Match the height of the image */
+}
+/* Remove margin between Login and Sign Up */
+#forgotpassword-login {
+    margin-right: 0;
+    font-size:30px;
+    font-weight: bold;
+    color: #004C87;
+}
+
+
+.forgotpassword-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+#forgotpassword-form{
+    display: flex;
+    flex-direction: column;
+   
+    width: 25%;
+    height: 30vh;
+    margin-top: 20px; /* Add margin to the top of the form */
+    padding: 0 20px; /* Add padding to the left and right of the form */
+    border-radius: 10px; /* Add rounded corners */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect */   
+}
+#forgotpassword-label{
+    font-size: 20px; /* Set font size to 20px */
+    font-weight: bold; /* Make label text bold */
+    margin-bottom: 10px; /* Add space below the label */
+    color: #004C87; /* Set label text color to #004C87 */
+    text-align: center;
+    margin-top: 15px;
+}
+.forgotpassword-input-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Add space below the input container */
+    border: 1px solid #000000; /* Add border to the input container */
+    border-radius: 5px; /* Add rounded corners to the input container */
+    padding: 10px; /* Add padding to the input container */
+    
+}
+#forgotpassword-input{
+    margin-left: 5px;
+}
+#forgotpassword-submit{
+    background-color: #004C87; /* Set button background color to #004C87 */
+    color: white; /* Set button text color to white */
+    padding: 10px 20px; /* Add padding to the button */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add rounded corners to the button */
+    cursor: pointer; /* Add pointer cursor to the button */
+    font-size: 16px; /* Set button font size to 16px */
+    font-weight: bold; /* Make button text bold */
+    width: 50%; /* Set button width to 50% of the container */
+    margin: 0 auto; /* Center the button horizontally */
+    /* Add space above the button */
+    transition: background-color 0.3s ease; /* Add transition effect for background color */
+    text-align: center; /* Center the button text */
+    text-decoration: none; /* Remove underline from button text */
+    display: inline-block; /* Make the button an inline-block element */
+}
+#forgotpassword-submit:hover{
+    background-color: #003366; /* Darken the button color on hover */
+}
+#forgotpassword-submit:active{
+    background-color: #002244; /* Darken the button color on active */
+}

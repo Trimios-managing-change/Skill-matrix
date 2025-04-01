@@ -1,0 +1,475 @@
+/* Ensure the entire page fits within 100vh */
+*{
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.viewscreen {
+    display: flex;
+    flex-direction: column;
+    margin: 0%;
+    padding: 0;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    margin-bottom: 0px;
+    overflow: hidden;
+    background: url('../assets/login-bg.svg'); /* Set background image */
+    background-size: cover; /* Cover the entire screen */   
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+}
+.header {
+    margin: 20px 10px 20px 10px; /* Top: 20px, Right: 10px, Bottom: 20px, Left: 10px */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the top */
+    width: 100%; /* Ensure it spans the full width */
+    overflow-y: hidden;
+}
+.header .logo img {
+    width: 200px; /* Set logo width to 200px */
+    height: 75px; /* Set logo height to 75px */
+    margin: 0 auto; /* Center the logo horizontally */
+    padding: 0; /* Reset padding for logo */
+    pointer-events: none; /* Disable pointer events to prevent copying or moving */
+}
+.header ul {
+    display: flex; /* Ensure the list items are displayed in a row */
+    list-style: none; /* Remove default list styling */
+    margin: 0; /* Reset margin for ul */
+    padding: 0; /* Reset padding for ul */
+    align-items: center; /* Align list items to the center */
+}
+.header ul li {
+    margin-right: 20px; /* Add spacing between list items */
+    cursor: pointer; /* Add pointer cursor */
+    font-weight: bold; /* Make list items bold */
+    font-size: 20px; /* Set font size to 20px */
+    line-height: 75px; /* Match the height of the image */
+}
+/* Remove margin between Login and Sign Up */
+#login {
+    margin-right: 0;
+    font-size:30px;
+    font-weight: bold;
+    color: #004C87;
+}
+
+#signup {
+    margin-left: 0;
+    font-size:30px;
+    font-weight: bold;
+    color: #004C87;
+}
+.header ul li:hover {
+    color: #004C87; /* Change text color to blue on hover */
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    
+    height: 100vh;
+    width: auto;
+    margin-right: 10px; /* Set margin to 20px */
+    margin-left: 10px;
+    padding: 20px;
+    overflow: hidden;
+}
+.textcontent{
+    display: flex;
+    flex-direction: column;
+   
+    width: 60%;
+    height: 100%;
+   
+    overflow: hidden;
+}
+.text{
+    height: fit-content;
+}
+.text h1{
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+#colorgrade1{
+    color:#6A994E;
+}
+#colorgrade2{
+    color:#FFB703;
+}
+#intro{
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+.landingpagebtns{
+    
+    width: 100%;
+    margin-top: 10px;
+
+}
+.context-btns{
+    display: flex;
+    gap: 20px; /* Add space between buttons */
+    padding: 2px;
+}
+.context-btns button{
+    
+    width: 125px; /* Set button width to 200px */
+    height: 30px; /* Set button height to 50px */
+    font-size: 18px; /* Set font size to 20px */
+    font-weight: bold; /* Make font bold */
+    cursor: pointer; /* Add pointer cursor */
+    border: none; /* Remove button border */
+    border-radius: 10px; /* Add border radius */
+    background-color: #004C87; /* Set button background color to blue */
+    color: white; /* Set text color to white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.context-btns button:hover{
+    background-color: #0561a7; /* Change button background color to green on hover */
+}
+.context-btns button:active{
+    background-color: #2A9D8F; /* Change button background color to dark blue on click */
+}
+.context-btns button:focus{
+    outline: 2px solid #000000; /* Add a solid orange outline for button focus */
+}
+#btntittle{
+    margin-top: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2A9D8F;
+}
+#btntext{
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+/* General styling for the login container */
+/* Center the login form */
+/* Center the login form within its container */
+/* Center the login form properly */
+/* Center the login form */
+.loginregisterspace{
+    display:flex ;
+    justify-content: center;
+    align-items: center;
+    
+}
+.loginform {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    margin-left: 70%;
+    margin-top: -80px;
+}
+
+/* Styling for the login form */
+.formlogin{
+    background: white;
+    padding: 30px;
+    border: 2px solid #10101033; /* Add a solid border with light gray color */
+    border-radius: 15px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.224);
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    max-width: 90%;
+    text-align: center;
+    background: url('../assets/loginformbg.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Title of the login form */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Input group: Includes icon + input field */
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+}
+
+/* FontAwesome icons inside input */
+.input-group svg {
+    color: #555;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Input fields */
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+}
+
+/* Login button */
+#loginsubmit {
+    background: #004C87;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #014f8b;
+}
+
+/* Signup link */
+p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.signup-link {
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    form {
+        width: 90%;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+
+/* Centering the register form */
+.registerform {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    margin-left: 70%;
+    margin-top: -80px;
+}
+
+.registerform form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    max-width: 90%;
+    text-align: center;
+    background: url('../assets/loginformbg.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.registerform .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.registerform .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+}
+
+.registerform .input-group svg {
+    color: #555;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.registerform input, .registerform select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+}
+
+.registerform select {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.registerform button {
+    background: #004C87;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.registerform button:hover {
+    background: #014f8b;
+}
+
+.registerform p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.registerform .signup-link {
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.registerform .signup-link:hover {
+    text-decoration: underline;
+}
+
+/* footer Design */
+.footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between; /* Ensures left logo & right content */
+    background-color: #f8f9fa;
+    
+    width: 100%;
+}
+/* Logo on the Left */
+.footer-logo {
+    flex: 0 0 auto; /* Keeps logo fixed */
+}
+
+.footer-logo img {
+    width: 150px;
+    height: auto;
+}
+
+/* Content Aligned to Right */
+.footer-content {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px; /* Reducing gap between sections */
+    flex-wrap: nowrap; /* Ensures they stay in one row */
+    text-align: left;
+    flex-grow: 1;
+    max-width: 60%; /* Restricts content width for better right alignment */
+    margin-top: 30px;
+}
+
+/* Individual Sections */
+.footer-content div {
+    flex: 1;
+    min-width: 180px;
+}
+
+.footer-content h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.footer-content h4::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 2px;
+    background-color: #007bff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.footer-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-content ul li {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-content ul li:hover {
+    color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo {
+        margin-bottom: 20px;
+    }
+
+    .footer-content {
+        justify-content: center;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .footer-content h4::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .footer-content {
+        flex-wrap: wrap; /* Allows items to stack */
+        gap: 20px; /* Adjust spacing for smaller screens */
+    }
+}

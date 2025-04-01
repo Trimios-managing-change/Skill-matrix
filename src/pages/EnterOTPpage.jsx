@@ -1,0 +1,99 @@
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
+import logoheader from '../assets/logo-header.svg'; // Import your logo image
+import BASE_URL from '../config';
+import axios from 'axios';
+
+function EnterOTPpage() {
+    const [otp, setOtp] = useState('');
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setOtp(e.target.value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (otp.length !== 4) {
+            toast.error('OTP must be 4 digits long.');
+            return;
+        }
+
+        try {
+            const token = sessionStorage.getItem('resetPasswordToken');
+            const response = await axios.post(`${BASE_URL}/auth/verify-otp`, { otp }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // Simulate OTP verification
+            const isValidOtp = response.data.isValid;
+            if (isValidOtp) {
+                const resettoken = response.data;
+                sessionStorage.setItem('resetToken', resettoken);
+                toast.success('OTP Verified Successfully!');
+                setTimeout(() => {
+                    navigate('/resetpassword');
+                }, 2000);
+            } else {
+                toast.error('Invalid OTP. Please try again.');
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again later.');
+        }
+    };
+
+    return (
+        <div className="forgotpassword-container">
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+            <div className="forgotpassword-navbar">
+                <img src={logoheader} alt="Logo" />
+                <div className="login_signup">
+                    <ul id='forgotpassword-ul'>
+                        <Link to="/login" id='forgotpassword-login' style={{ textDecoration: 'none' }}><li id='forgotpassword-login'>Login</li></Link>
+
+                    </ul>
+                </div>
+            </div>
+            <div className="forgotpassword-form">
+                <form id="forgotpassword-form" onSubmit={handleSubmit}>
+                    <label id='forgotpassword-label' htmlFor="otp">Enter OTP</label>
+                    <div className="forgotpassword-input-container">
+                        <FontAwesomeIcon icon={faMessage} className="icon" />
+                        <input
+                            type="text"
+                            id="forgotpassword-input"
+                            name="otp"
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={handleChange}
+                            maxLength="4"
+                            inputMode="numeric"
+                            required
+                        />
+                    </div>
+                    <button id='forgotpassword-submit' type="submit" disabled={otp.length !== 4}>
+                        Verify
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    );
+}
+
+export default EnterOTPpage;

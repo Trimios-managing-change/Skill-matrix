@@ -12,7 +12,7 @@ const RegisterForm = ({ setFormType }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        userType: '',
+        userType: '', // Ensure this matches the select input value
     });
 
     const handleChange = (e) => {
@@ -28,9 +28,8 @@ const RegisterForm = ({ setFormType }) => {
         try {
             const response = await axios.post(`${BASE_URL}/register`, formData);
             if (response.status === 200) {
-                
                 const { token } = response.data; // Extract token from backend response
-    
+
                 // Store login status and auth token
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('authToken', token);
@@ -38,6 +37,9 @@ const RegisterForm = ({ setFormType }) => {
                 setTimeout(() => {
                     navigate('/home');
                 }, 2000);
+            }
+            else {
+                toast.error(`Registration failed: ${response.statusText}`, { autoClose: 3000 });
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error during registration.');
@@ -84,14 +86,14 @@ const RegisterForm = ({ setFormType }) => {
                 <div className="input-group">
                     <FontAwesomeIcon icon={faUser} />
                     <select
-                        name="usertype"
-                        value={formData.userType}
+                        name="userType" // Ensure name is correct
+                        value={formData.userType} // This ensures the value is properly set
                         onChange={handleChange}
                         required
                     >
                         <option value="" disabled>Select user type</option>
                         <option value="student/fresher">Student/Fresher</option>
-                        <option value="employeed">Employeed</option>
+                        <option value="employeed">Employee</option>
                         <option value="organization">Organization</option>
                         <option value="hr">H.R</option>
                     </select>

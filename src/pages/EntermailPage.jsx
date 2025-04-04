@@ -8,18 +8,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import logoheader from '../assets/logo-header.svg';
 import '../pagescss/Entermailpage.css'; // Import your CSS file for styling
-
-
+import HashLoader from 'react-spinners/HashLoader'; // Importing the spinner
 
 function Entermail() {
     const [email, setEmail] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Loading state
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true); // Start loading
 
         try {
-           
             const response = await axios.post(`${BASE_URL}/auth/forgot-password`, { email });
 
             if (response.status === 200) {
@@ -35,6 +35,8 @@ function Entermail() {
         } catch (error) {
             console.error('Error:', error);
             toast.error('An error occurred. Please try again.');
+        } finally {
+            setIsLoading(false); // Stop loading
         }
     };
 
@@ -51,16 +53,25 @@ function Entermail() {
                 draggable
                 pauseOnHover
             />
+
+            {/* Loader Display */}
+            {isLoading && (
+                <div className="loader-overlay">
+                    <HashLoader color="#007bff" loading={true} size={60} />
+                </div>
+            )}
+
             <div className="forgotpassword-navbar">
                 <img src={logoheader} alt="Logo" />
                 <div className="login_signup">
                     <ul id='forgotpassword-ul'>
-                        <Link to="/login" id='forgotpassword-login' style={{ textDecoration: 'none' }}><li id='forgotpassword-login'>Login</li></Link>
-
+                        <Link to="/login" id='forgotpassword-login' style={{ textDecoration: 'none' }}>
+                            <li id='forgotpassword-login'>Login</li>
+                        </Link>
                     </ul>
                 </div>
             </div>
-            <div className="forgotpassword-form" >
+            <div className="forgotpassword-form">
                 <form id="forgotpassword-form" onSubmit={handleSubmit}>
                     <label id='forgotpassword-label' htmlFor="email">Enter your email address</label>
                     <div className="forgotpassword-input-container">
@@ -75,9 +86,25 @@ function Entermail() {
                             required
                         />
                     </div>
-                    <button id='forgotpassword-submit' type="submit">Submit</button>
+                    <button id='forgotpassword-submit' type="submit" disabled={isLoading}>Submit</button>
                 </form>
             </div>
+
+            {/* Loader Styling */}
+            <style>{`
+                .loader-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                }
+            `}</style>
         </div>
     );
 }

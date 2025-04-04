@@ -6,14 +6,17 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BASE_URL from '../config';
+import HashLoader from 'react-spinners/HashLoader'; // Import the spinner
 
 const RegisterForm = ({ setFormType }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        userType: '', // Ensure this matches the select input value
+        userType: '',
     });
+    const [error, setError] = useState(''); // To store password validation errors
+    const [isLoading, setIsLoading] = useState(false); // Manage loading state
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,11 +24,28 @@ const RegisterForm = ({ setFormType }) => {
             ...formData,
             [name]: value,
         });
+
+        // Password validation: At least one uppercase letter and one special character
+        if (name === 'password') {
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).+$/;
+            if (!passwordRegex.test(value)) {
+                setError('Password must contain at least one uppercase letter and one special character.');
+            } else {
+                setError('');
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (error) {
+            toast.error(error); // Show error toast if password validation fails
+            return;
+        }
+
+        setIsLoading(true); // Start loading
         try {
+            console.log(formData); // Log form data for debugging
             const response = await axios.post(`${BASE_URL}/register`, formData);
             if (response.status === 200) {
                 const { token } = response.data; // Extract token from backend response
@@ -37,12 +57,13 @@ const RegisterForm = ({ setFormType }) => {
                 setTimeout(() => {
                     navigate('/home');
                 }, 2000);
-            }
-            else {
+            } else {
                 toast.error(`Registration failed: ${response.statusText}`, { autoClose: 3000 });
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error during registration.');
+        } finally {
+            setIsLoading(false); // Stop loading
         }
     };
 
@@ -56,6 +77,15 @@ const RegisterForm = ({ setFormType }) => {
                 pauseOnHover 
                 draggable 
             />
+
+            {/* Show the loader while the form is submitting */}
+            {isLoading && (
+                <div className="loader-overlay">
+                    <HashLoader color="#007bff" loading={true} size={60} />
+                </div>
+            )}
+
+            {/* Form */}
             <form onSubmit={handleSubmit}>
                 <div className="title">Register</div>
 
@@ -81,25 +111,26 @@ const RegisterForm = ({ setFormType }) => {
                         placeholder="Enter your password"
                         required
                     />
+                    {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display password validation error */}
                 </div>
 
                 <div className="input-group">
                     <FontAwesomeIcon icon={faUser} />
                     <select
-                        name="userType" // Ensure name is correct
-                        value={formData.userType} // This ensures the value is properly set
+                        name="userType"
+                        value={formData.userType}
                         onChange={handleChange}
                         required
                     >
                         <option value="" disabled>Select user type</option>
-                        <option value="student/fresher">Student/Fresher</option>
-                        <option value="employeed">Employee</option>
-                        <option value="organization">Organization</option>
-                        <option value="hr">H.R</option>
+                        <option value="STUDENT">Student/Fresher</option>
+                        <option value="EMPLOYEED">Employee</option>
+                        <option value="ORGANIZATION">Organization</option>
+                        <option value="HR">H.R</option>
                     </select>
                 </div>
 
-                <button type="submit">Register</button>
+                <button type="submit" disabled={isLoading || error}>Register</button>
 
                 <p>
                     Already have an account?{' '}
@@ -108,6 +139,22 @@ const RegisterForm = ({ setFormType }) => {
                     </span>
                 </p>
             </form>
+
+            {/* Styles for the loader overlay */}
+            <style>{`
+                .loader-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                }
+            `}</style>
         </div>
     );
 };

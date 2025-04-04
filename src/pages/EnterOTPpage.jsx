@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import logoheader from '../assets/logo-header.svg'; // Import your logo image
 import BASE_URL from '../config';
 import axios from 'axios';
+import HashLoader from 'react-spinners/HashLoader'; // Importing the spinner
 
 function EnterOTPpage() {
     const [otp, setOtp] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Loading state
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -22,6 +24,8 @@ function EnterOTPpage() {
             toast.error('OTP must be 4 digits long.');
             return;
         }
+
+        setIsLoading(true); // Start loading
 
         try {
             const token = sessionStorage.getItem('resetPasswordToken');
@@ -44,6 +48,8 @@ function EnterOTPpage() {
             }
         } catch (error) {
             toast.error('An error occurred. Please try again later.');
+        } finally {
+            setIsLoading(false); // Stop loading
         }
     };
 
@@ -60,12 +66,21 @@ function EnterOTPpage() {
                 draggable
                 pauseOnHover
             />
+
+            {/* Loader Display */}
+            {isLoading && (
+                <div className="loader-overlay">
+                    <HashLoader color="#007bff" loading={true} size={60} />
+                </div>
+            )}
+
             <div className="forgotpassword-navbar">
                 <img src={logoheader} alt="Logo" />
                 <div className="login_signup">
                     <ul id='forgotpassword-ul'>
-                        <Link to="/login" id='forgotpassword-login' style={{ textDecoration: 'none' }}><li id='forgotpassword-login'>Login</li></Link>
-
+                        <Link to="/login" id='forgotpassword-login' style={{ textDecoration: 'none' }}>
+                            <li id='forgotpassword-login'>Login</li>
+                        </Link>
                     </ul>
                 </div>
             </div>
@@ -86,13 +101,28 @@ function EnterOTPpage() {
                             required
                         />
                     </div>
-                    <button id='forgotpassword-submit' type="submit" disabled={otp.length !== 4}>
+                    <button id='forgotpassword-submit' type="submit" disabled={isLoading || otp.length !== 4}>
                         Verify
                     </button>
                 </form>
             </div>
-        </div>
 
+            {/* Loader Styling */}
+            <style>{`
+                .loader-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                }
+            `}</style>
+        </div>
     );
 }
 

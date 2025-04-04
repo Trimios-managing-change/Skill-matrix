@@ -7,15 +7,18 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BASE_URL from '../config';
 import { Link } from 'react-router-dom';
+import HashLoader from 'react-spinners/HashLoader';
 
-// Login Form Component
 function LoginForm({ setFormType }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         try {
             const response = await axios.post(`${BASE_URL}/login`, {
                 email,
@@ -23,23 +26,23 @@ function LoginForm({ setFormType }) {
             });
 
             if (response.status === 200) {
-                const { token } = response.data; // Extract token from backend response
+                const { token } = response.data;
 
-                // Store login status and auth token
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('authToken', token);
 
-                toast.success('Login successful!', { autoClose: 5000 });
+                toast.success('Login successful!', { autoClose: 3000 });
 
-                // Redirect to home after a delay
                 setTimeout(() => {
                     navigate('/home');
-                }, 5000);
+                }, 3000);
             } else {
                 toast.error(`Login failed: ${response.statusText}`, { autoClose: 5000 });
             }
         } catch (error) {
             toast.error(`Error during login: ${error.response?.data?.message || error.message}`, { autoClose: 5000 });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -56,8 +59,11 @@ function LoginForm({ setFormType }) {
                 draggable
                 pauseOnHover
             />
+
+            {/* Login Form */}
             <form className='formlogin' onSubmit={handleSubmit}>
                 <div className="title">Login</div>
+
                 <div className="input-group">
                     <FontAwesomeIcon icon={faEnvelope} />
                     <input
@@ -70,6 +76,7 @@ function LoginForm({ setFormType }) {
                         required
                     />
                 </div>
+
                 <div className="input-group">
                     <FontAwesomeIcon icon={faLock} />
                     <input
@@ -82,6 +89,7 @@ function LoginForm({ setFormType }) {
                         required
                     />
                 </div>
+
                 <div className="forgot-password">
                     <p>
                         <Link to="/forgotpassword/entermail" className="forgot-password-link">
@@ -89,6 +97,7 @@ function LoginForm({ setFormType }) {
                         </Link>
                     </p>
                 </div>
+
                 <button id='loginsubmit' type="submit">Login</button>
 
                 <p>
@@ -99,7 +108,13 @@ function LoginForm({ setFormType }) {
                 </p>
             </form>
 
-            {/* Remove JSX attribute from <style> */}
+            {/* Loader Overlay */}
+            {loading && (
+                <div className="loader-overlay">
+                    <HashLoader color="#007bff" loading={true} size={60} />
+                </div>
+            )}
+
             <style>{`
                 .forgot-password {
                     text-align: right;
@@ -112,6 +127,18 @@ function LoginForm({ setFormType }) {
                 }
                 .forgot-password-link:hover {
                     color: #0056b3;
+                }
+                .loader-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: rgba(255, 255, 255, 0); /* Slight white dim */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
                 }
             `}</style>
         </div>

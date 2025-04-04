@@ -7,17 +7,29 @@ import BASE_URL from '../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import logoheader from '../assets/logo-header.svg';
-import '../pagescss/Entermailpage.css'; // Import your CSS file for styling
-import HashLoader from 'react-spinners/HashLoader'; // Importing the spinner
+import '../pagescss/Entermailpage.css';
+import HashLoader from 'react-spinners/HashLoader';
 
 function Entermail() {
     const [email, setEmail] = useState('');
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
+    // Email validation function
+    const isValidEmail = (email) => {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|edu|net|gov|in|tech|ai)$/;
+        return emailPattern.test(email);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true); // Start loading
+
+        if (!isValidEmail(email)) {
+            toast.error('Please enter a valid institutional or corporate email.');
+            return;
+        }
+
+        setIsLoading(true);
 
         try {
             const response = await axios.post(`${BASE_URL}/auth/forgot-password`, { email });
@@ -26,35 +38,25 @@ function Entermail() {
                 const { token } = response.data;
                 sessionStorage.setItem('resetPasswordToken', token);
                 toast.success('Email submitted successfully!');
+                
                 setTimeout(() => {
                     navigate('/forgotpassword/enterotp');
-                }, 5000); // 5-second delay
+                }, 3000);
             } else {
                 toast.error('Failed to submit email. Please try again.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            toast.error('An error occurred. Please try again.');
+            toast.error(error.response?.data?.message || 'An error occurred. Please try again.');
         } finally {
-            setIsLoading(false); // Stop loading
+            setIsLoading(false);
         }
     };
 
     return (
         <div className="forgotpassword-container">
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} draggable pauseOnHover />
 
-            {/* Loader Display */}
+            {/* Loader */}
             {isLoading && (
                 <div className="loader-overlay">
                     <HashLoader color="#007bff" loading={true} size={60} />
@@ -64,16 +66,19 @@ function Entermail() {
             <div className="forgotpassword-navbar">
                 <img src={logoheader} alt="Logo" />
                 <div className="login_signup">
-                    <ul id='forgotpassword-ul'>
-                        <Link to="/login" id='forgotpassword-login' style={{ textDecoration: 'none' }}>
-                            <li id='forgotpassword-login'>Login</li>
+                    <ul id="forgotpassword-ul">
+                        <Link to="/login" id="forgotpassword-login" style={{ textDecoration: 'none' }}>
+                            <li>Login</li>
                         </Link>
                     </ul>
                 </div>
             </div>
+
             <div className="forgotpassword-form">
                 <form id="forgotpassword-form" onSubmit={handleSubmit}>
-                    <label id='forgotpassword-label' htmlFor="email">Enter your email address</label>
+                    <label id="forgotpassword-label" htmlFor="email">
+                        Enter your email address
+                    </label>
                     <div className="forgotpassword-input-container">
                         <FontAwesomeIcon icon={faEnvelope} className="icon" />
                         <input
@@ -86,7 +91,9 @@ function Entermail() {
                             required
                         />
                     </div>
-                    <button id='forgotpassword-submit' type="submit" disabled={isLoading}>Submit</button>
+                    <button id="forgotpassword-submit" type="submit" >
+                        Submit
+                    </button>
                 </form>
             </div>
 
@@ -103,6 +110,10 @@ function Entermail() {
                     justify-content: center;
                     align-items: center;
                     z-index: 9999;
+                }
+                #forgotpassword-submit:disabled {
+                    background-color: gray;
+                    cursor: not-allowed;
                 }
             `}</style>
         </div>

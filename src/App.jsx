@@ -2,10 +2,11 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Loginpage from './pages/Loginpage';
 import Homepage from './pages/Homepage'; // Import Home Page
-import ProtectedRoute from './components/ProtectedRoute'; // Import Protected Route
+import ProtectedRoute, { ProtectedpasswordRoute } from './components/ProtectedRoute'; // Import Protected Route
 import Entermail from './pages/EntermailPage'; // Import Entermail Component
 import EnterOTPpage from './pages/EnterOTPpage'; // Import EnterOTP Component
 import Resetpassword from './pages/Resetpassword';
+
 
 import { ProtectedResetRoute } from './components/ProtectedRoute';
 
@@ -21,9 +22,9 @@ function App() {
 
         {/* Protected Route for Home */}
         {/* Route for the homepage, accessible only through ProtectedRoute */}
-        
+        <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Homepage />} />
-          
+          </Route>
 
         {/* Redirect unknown routes to login */}
         {/* Catch-all route to redirect any unknown paths to the login page */}
@@ -33,12 +34,12 @@ function App() {
         {/* Route for entering email during password reset */}
         <Route path='/forgotpassword/entermail' element={<Entermail />} />
 
-         <Route element={<ProtectedResetRoute />}>
+         <Route element={<ProtectedResetRoute/>}>
         <Route path='/forgotpassword/enterotp' element={<EnterOTPpage />} />
         </Route>
 
         {/* Route for resetting password */}
-        <Route element={<ProtectedResetRoute />}>
+        <Route element={<ProtectedpasswordRoute/>}>
         <Route path='/resetpassword' element={<Resetpassword />} />
         </Route>
       </Routes>

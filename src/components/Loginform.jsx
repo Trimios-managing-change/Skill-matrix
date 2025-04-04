@@ -9,25 +9,47 @@ import BASE_URL from '../config';
 import { Link } from 'react-router-dom';
 import HashLoader from 'react-spinners/HashLoader';
 
-function LoginForm({ setFormType }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const LoginForm = ({ setFormType }) => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+    const [emailError, setEmailError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    const validateEmail = (email) => {
+        const emailRegex =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|edu|net|gov|in|tech|ai)$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Email must end with .com, .org, or .in');
+        } else {
+            setEmailError('');
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        if (name === 'email') {
+            validateEmail(value);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
+        if (emailError) {
+            toast.error(emailError);
+            return;
+        }
+
+        setLoading(true);
         try {
-            const response = await axios.post(`${BASE_URL}/login`, {
-                email,
-                password,
-            });
+            const response = await axios.post(`${BASE_URL}/login`, formData);
 
             if (response.status === 200) {
                 const { token } = response.data;
-
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('authToken', token);
 
@@ -48,17 +70,7 @@ function LoginForm({ setFormType }) {
 
     return (
         <div className='loginform'>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} closeOnClick draggable pauseOnHover />
 
             {/* Login Form */}
             <form className='formlogin' onSubmit={handleSubmit}>
@@ -68,23 +80,22 @@ function LoginForm({ setFormType }) {
                     <FontAwesomeIcon icon={faEnvelope} />
                     <input
                         type="email"
-                        id="email"
                         name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="Enter your email"
                         required
                     />
                 </div>
+                {emailError && <p className="error-text">{emailError}</p>}
 
                 <div className="input-group">
                     <FontAwesomeIcon icon={faLock} />
                     <input
                         type="password"
-                        id="password"
                         name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={formData.password}
+                        onChange={handleChange}
                         placeholder="Enter your password"
                         required
                     />
@@ -98,7 +109,7 @@ function LoginForm({ setFormType }) {
                     </p>
                 </div>
 
-                <button id='loginsubmit' type="submit">Login</button>
+                <button id='loginsubmit' type="submit" disabled={loading || emailError}>Login</button>
 
                 <p>
                     New to Skill Matrix?{' '}
@@ -128,13 +139,18 @@ function LoginForm({ setFormType }) {
                 .forgot-password-link:hover {
                     color: #0056b3;
                 }
+                .error-text {
+                    color: red;
+                    font-size: 12px;
+                    margin-top: 5px;
+                }
                 .loader-overlay {
                     position: fixed;
                     top: 0;
                     left: 0;
                     width: 100vw;
                     height: 100vh;
-                    background-color: rgba(255, 255, 255, 0); /* Slight white dim */
+                    background-color: rgba(255, 255, 255, 0.7);
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -143,6 +159,6 @@ function LoginForm({ setFormType }) {
             `}</style>
         </div>
     );
-}
+};
 
 export default LoginForm;

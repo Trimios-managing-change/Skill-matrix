@@ -15,7 +15,7 @@ const RegisterForm = ({ setFormType }) => {
         password: '',
         userType: '',
     });
-    const [error, setError] = useState(''); // To store password validation errors
+    const [error, setError] = useState(''); // To store validation errors
     const [isLoading, setIsLoading] = useState(false); // Manage loading state
 
     const handleChange = (e) => {
@@ -25,7 +25,15 @@ const RegisterForm = ({ setFormType }) => {
             [name]: value,
         });
 
-        // Password validation: At least one uppercase letter and one special character
+        if (name === 'email') {
+            const emailRegex =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|edu|net|gov|in|tech|ai)$/;
+            if (!emailRegex.test(value)) {
+                setError('Email must end with .com, .org, or .in');
+            } else {
+                setError('');
+            }
+        }
+
         if (name === 'password') {
             const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).+$/;
             if (!passwordRegex.test(value)) {
@@ -39,7 +47,7 @@ const RegisterForm = ({ setFormType }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (error) {
-            toast.error(error); // Show error toast if password validation fails
+            toast.error(error); // Show error toast if validation fails
             return;
         }
 
@@ -47,6 +55,7 @@ const RegisterForm = ({ setFormType }) => {
         try {
             console.log(formData); // Log form data for debugging
             const response = await axios.post(`${BASE_URL}/register`, formData);
+            
             if (response.status === 200) {
                 const { token } = response.data; // Extract token from backend response
 
@@ -111,8 +120,9 @@ const RegisterForm = ({ setFormType }) => {
                         placeholder="Enter your password"
                         required
                     />
-                    {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display password validation error */}
                 </div>
+
+                {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display validation error */}
 
                 <div className="input-group">
                     <FontAwesomeIcon icon={faUser} />
@@ -124,7 +134,7 @@ const RegisterForm = ({ setFormType }) => {
                     >
                         <option value="" disabled>Select user type</option>
                         <option value="STUDENT">Student/Fresher</option>
-                        <option value="EMPLOYEED">Employee</option>
+                        <option value="EMPLOYEE">Employee</option>
                         <option value="ORGANIZATION">Organization</option>
                         <option value="HR">H.R</option>
                     </select>

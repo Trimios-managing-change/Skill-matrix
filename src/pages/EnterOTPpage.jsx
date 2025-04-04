@@ -20,8 +20,8 @@ function EnterOTPpage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (otp.length !== 4) {
-            toast.error('OTP must be 4 digits long.');
+        if (otp.length !== 6) {
+            toast.error('OTP must be 6 digits long.');
             return;
         }
 
@@ -35,10 +35,12 @@ function EnterOTPpage() {
                 }
             });
             // Simulate OTP verification
-            const isValidOtp = response.data.isValid;
-            if (isValidOtp) {
-                const resettoken = response.data;
+            console.log(response.data); // Log the response for debugging
+            if (response.status === 200) {
+                const resettoken = response.data.token;
+                console.log(resettoken);
                 sessionStorage.setItem('resetToken', resettoken);
+
                 toast.success('OTP Verified Successfully!');
                 setTimeout(() => {
                     navigate('/resetpassword');
@@ -96,12 +98,12 @@ function EnterOTPpage() {
                             placeholder="Enter OTP"
                             value={otp}
                             onChange={handleChange}
-                            maxLength="4"
+                            maxLength="6"
                             inputMode="numeric"
                             required
                         />
                     </div>
-                    <button id='forgotpassword-submit' type="submit" disabled={isLoading || otp.length !== 4}>
+                    <button id='forgotpassword-submit' type="submit" disabled={isLoading || otp.length !== 6}>
                         Verify
                     </button>
                 </form>

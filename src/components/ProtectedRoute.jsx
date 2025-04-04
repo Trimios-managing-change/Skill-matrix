@@ -20,4 +20,4 @@ const ProtectedpasswordRoute = () => {
 
 
 export default ProtectedRoute;
-export { ProtectedResetRoute };
+export { ProtectedResetRoute , ProtectedpasswordRoute};

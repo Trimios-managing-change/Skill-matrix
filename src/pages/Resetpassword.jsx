@@ -15,6 +15,28 @@ function Resetpassword() {
     const [isLoading, setIsLoading] = useState(false); // Loading state
     const navigate = useNavigate();
 
+    const validatePassword = (password) => {
+        const capitalLetter = /[A-Z]/;
+        const specialCharacter = /[!@#$%^&*(),.?":{}|<>]/;
+        
+        if (!capitalLetter.test(password)) {
+            toast.error('Password must contain at least one uppercase letter!');
+            return false;
+        }
+
+        if (!specialCharacter.test(password)) {
+            toast.error('Password must contain at least one special character!');
+            return false;
+        }
+
+        if (password.length < 8) {
+            toast.error('Password must be at least 8 characters long!');
+            return false;
+        }
+
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
@@ -22,22 +44,36 @@ function Resetpassword() {
             return;
         }
 
+        if (!validatePassword(newPassword)) {
+            return; // Stop submission if validation fails
+        }
+
         setIsLoading(true); // Start loading
 
         try {
-            const token = sessionStorage.getItem('resetToken');
+            const resetPasswordToken = sessionStorage.getItem('resetToken');
+
+            if (!resetPasswordToken) {
+                toast.error('Session expired. Please request a new OTP.');
+                navigate('/enter-otp');
+                return;
+            }
+
             const response = await axios.put(`${BASE_URL}/auth/reset-password`, {
-                newPassword,
+                newPassword
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${resetPasswordToken}`,
                 }
             });
+
             if (response.status === 200) {
                 toast.success(response.data.message || 'Password reset successfully!');
+                localStorage.setItem('authToken', response.data.token);
+
                 setTimeout(() => {
                     navigate('/home');
-                }, 2000); // Navigate after a short delay to allow the toast to display
+                }, 2000);
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'An error occurred while resetting the password.');
@@ -59,7 +95,7 @@ function Resetpassword() {
                 draggable
                 pauseOnHover
             />
-            
+
             {/* Loader Display */}
             {isLoading && (
                 <div className="loader-overlay">

@@ -70,6 +70,8 @@ function Resetpassword() {
             if (response.status === 200) {
                 toast.success(response.data.message || 'Password reset successfully!');
                 localStorage.setItem('authToken', response.data.token);
+                const { role } = response.data.role;
+                localStorage.setItem('role', role); // Store the role in local storage
 
                 setTimeout(() => {
                     navigate('/home');
@@ -86,7 +88,7 @@ function Resetpassword() {
         <div className="forgotpassword-container">
             <ToastContainer
                 position="top-center"
-                autoClose={5000}
+                autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

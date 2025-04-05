@@ -62,12 +62,14 @@ const RegisterForm = ({ setFormType }) => {
                 // Store login status and auth token
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('authToken', token);
-                toast.success('Registration successful!', { autoClose: 3000 });
+                const { role } = response.data.role;
+                localStorage.setItem('role', role); // Store the role in local storage
+                toast.success('Registration successful!', { autoClose: 1000 });
                 setTimeout(() => {
                     navigate('/home');
                 }, 2000);
             } else {
-                toast.error(`Registration failed: ${response.statusText}`, { autoClose: 3000 });
+                toast.error(`Registration failed: ${response.statusText}`, { autoClose: 1000 });
             }
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error during registration.');
@@ -80,7 +82,7 @@ const RegisterForm = ({ setFormType }) => {
         <div className="registerform">
             <ToastContainer 
                 position="top-center" 
-                autoClose={3000} 
+                autoClose={1000} 
                 hideProgressBar={false} 
                 closeOnClick 
                 pauseOnHover 

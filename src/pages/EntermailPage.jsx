@@ -54,7 +54,7 @@ function Entermail() {
 
     return (
         <div className="forgotpassword-container">
-            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} draggable pauseOnHover />
+            <ToastContainer position="top-center" autoClose={1000} hideProgressBar={false} draggable pauseOnHover />
 
             {/* Loader */}
             {isLoading && (

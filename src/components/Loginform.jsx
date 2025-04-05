@@ -50,19 +50,21 @@ const LoginForm = ({ setFormType }) => {
 
             if (response.status === 200) {
                 const { token } = response.data;
+                const {role}= response.data.role;
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('authToken', token);
+                localStorage.setItem('role', role); // Store the role in local storage
 
                 toast.success('Login successful!', { autoClose: 3000 });
 
                 setTimeout(() => {
                     navigate('/home');
-                }, 3000);
+                }, 2000);
             } else {
-                toast.error(`Login failed: ${response.statusText}`, { autoClose: 5000 });
+                toast.error(`Login failed: ${response.statusText}`, { autoClose: 1000 });
             }
         } catch (error) {
-            toast.error(`Error during login: ${error.response?.data?.message || error.message}`, { autoClose: 5000 });
+            toast.error(`Error during login: ${error.response?.data?.message || error.message}`, { autoClose: 1000 });
         } finally {
             setLoading(false);
         }
